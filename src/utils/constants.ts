@@ -1,0 +1,23 @@
+export const allowedStacks = [
+  'JavaScript',
+  'TypeScript',
+  'PHP',
+  'HTML5',
+  'CSS3',
+  'Bootstrap',
+  'Tailwind CSS',
+  'Node.js',
+  'Express',
+  'NestJS',
+  'CodeIgniter',
+  'Laravel',
+  'MySQL',
+  'PostgreSQL',
+  'MongoDB',
+  'Git',
+  'Postman',
+  'GraphQL',
+  'React',
+  'Vite',
+  'Webpack'
+] as const;
