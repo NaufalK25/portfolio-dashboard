@@ -1,14 +1,20 @@
 import { useState } from 'react';
-import { FileText, Folder, Menu } from 'react-feather';
-import { Link, NavLink } from 'react-router-dom';
+import { FileText, Folder, LogOut, Menu } from 'react-feather';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import useAuth from '../hooks/useAuth';
+import { createSuccessToast } from '../utils/toast';
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
 };
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  useAuth();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const navigate = useNavigate();
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
@@ -18,6 +24,14 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     if (isSidebarOpen) {
       setIsSidebarOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('access_token');
+    navigate('/login');
+    setTimeout(() => {
+      createSuccessToast('Logged out successfully!');
+    }, 1);
   };
 
   return (
@@ -38,7 +52,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             Dashboard
           </Link>
         </div>
-        <nav>
+        <nav className='flex flex-col justify-between h-screen'>
           <ul className='p-4'>
             <li className='p-4 link link-hover w-fit'>
               <NavLink
@@ -57,6 +71,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               >
                 <FileText size={20} /> Repo Name
               </NavLink>
+            </li>
+          </ul>
+          <ul className='p-4'>
+            <li className='p-4 btn btn-ghost w-full'>
+              <button
+                className='flex items-center gap-x-1 uppercase'
+                onClick={handleLogout}
+              >
+                <LogOut size={20} /> Logout
+              </button>
             </li>
           </ul>
         </nav>

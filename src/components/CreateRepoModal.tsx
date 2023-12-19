@@ -216,6 +216,7 @@ const CreateRepoModal = () => {
             </div>
             <select
               className='select select-bordered'
+              required
               onChange={e => handleRepositorySelected(e)}
             >
               <option
@@ -379,6 +380,7 @@ const CreateRepoModal = () => {
               <input
                 type='file'
                 accept='.jpg, .jpeg, .png'
+                required
                 className='file-input file-input-bordered w-full max-w-xs'
                 onChange={e => handleThumbnailPreview(e)}
               />

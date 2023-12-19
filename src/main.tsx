@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage.jsx';
+import LoginPage from './pages/LoginPage.js';
 import RepoPage from './pages/RepoPage.jsx';
 import RepoNamePage from './pages/RepoNamePage.jsx';
 import './index.css';
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <DashboardPage />
+  },
+  {
+    path: '/login',
+    element: <LoginPage />
   },
   {
     path: '/repo',
