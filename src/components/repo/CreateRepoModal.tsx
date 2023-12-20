@@ -411,7 +411,7 @@ const CreateRepoModal = () => {
               ))}
             </datalist>
 
-            <kbd className='kbd absolute right-[8.5rem] top-11'>Tab</kbd>
+            <kbd className='kbd absolute right-1 md:right-[8.5rem] top-11'>Tab</kbd>
 
             <div
               ref={stacksRef}
