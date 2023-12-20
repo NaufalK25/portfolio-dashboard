@@ -380,7 +380,6 @@ const CreateRepoModal = () => {
               <input
                 type='file'
                 accept='.jpg, .jpeg, .png'
-                required
                 className='file-input file-input-bordered w-full max-w-xs'
                 onChange={e => handleThumbnailPreview(e)}
               />
