@@ -1,16 +1,21 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useState } from 'react';
+import { FileText, Folder, RefreshCw } from 'react-feather';
+import { Link } from 'react-router-dom';
+import StackUsedCountCharts from '../components/dashboard/StackUsedCountCharts';
+import RepoTypeCharts from '../components/dashboard/RepoTypeCharts';
 import useRepo from '../hooks/useRepo';
 import useRepoName from '../hooks/useRepoName';
 import DashboardLayout from '../layout/DashboardLayout';
-import { FileText, Folder, RefreshCw } from 'react-feather';
-import { Link } from 'react-router-dom';
 
 dayjs.extend(relativeTime);
 
+type Tab = 'Stack Used Count' | 'Repo Type';
+
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [acitveTab, setAcitveTab] = useState<Tab>('Stack Used Count');
 
   const { repos } = useRepo(setIsLoading);
   const { reposName } = useRepoName(setIsLoading);
@@ -19,8 +24,8 @@ const DashboardPage = () => {
     <DashboardLayout>
       <p>Dashboard</p>
 
-      <div className='flex gap-2'>
-        <div className='card w-96 bg-primary text-primary-content'>
+      <div className='flex flex-col md:flex-row justify-center gap-x-10 gap-y-4'>
+        <div className='card w-full md:w-96 bg-primary text-primary-content'>
           <div className='card-body'>
             <h2 className='card-title'>Repo</h2>
             <p>List of repository that will be shown in portfolio website</p>
@@ -44,7 +49,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className='card w-96 bg-primary text-primary-content'>
+        <div className='card w-full md:w-96 bg-primary text-primary-content'>
           <div className='card-body'>
             <h2 className='card-title'>Repo Name</h2>
             <p>List of repository name from GitHub user and organization(s)</p>
@@ -78,6 +83,31 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
+
+      <div
+        role='tablist'
+        className='tabs tabs-bordered'
+      >
+        <a
+          role='tab'
+          className={`${
+            acitveTab === 'Stack Used Count' ? 'tab-active' : ''
+          } tab`}
+          onClick={() => setAcitveTab('Stack Used Count')}
+        >
+          Stack Used Count
+        </a>
+        <a
+          role='tab'
+          className={`${acitveTab === 'Repo Type' ? 'tab-active' : ''} tab`}
+          onClick={() => setAcitveTab('Repo Type')}
+        >
+          Repo Type
+        </a>
+      </div>
+
+      {acitveTab === 'Stack Used Count' ? <StackUsedCountCharts /> : null}
+      {acitveTab === 'Repo Type' ? <RepoTypeCharts /> : null}
     </DashboardLayout>
   );
 };

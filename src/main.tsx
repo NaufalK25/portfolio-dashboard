@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage.jsx';
 import LoginPage from './pages/LoginPage.js';
-import RepoPage from './pages/RepoPage.jsx';
 import RepoNamePage from './pages/RepoNamePage.jsx';
+import RepoPage from './pages/RepoPage.jsx';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 

@@ -12,11 +12,11 @@ import {
   Users
 } from 'react-feather';
 import { Link } from 'react-router-dom';
-import CreateRepoModal from '../components/CreateRepoModal';
 import DashboardDataTable from '../components/DashboardDataTable';
-import DeleteRepoModal from '../components/DeleteRepoModal';
-import PreviewRepoModal from '../components/PreviewRepoModal';
-import UpdateRepoModal from '../components/UpdateRepoModal';
+import CreateRepoModal from '../components/repo/CreateRepoModal';
+import DeleteRepoModal from '../components/repo/DeleteRepoModal';
+import PreviewRepoModal from '../components/repo/PreviewRepoModal';
+import UpdateRepoModal from '../components/repo/UpdateRepoModal';
 import useRepo from '../hooks/useRepo';
 import DashboardLayout from '../layout/DashboardLayout';
 import { Repo, RepoStack } from '../types/repo';

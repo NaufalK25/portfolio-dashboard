@@ -1,23 +1,19 @@
-export const allowedStacks = [
-  'JavaScript',
-  'TypeScript',
-  'PHP',
-  'HTML5',
-  'CSS3',
-  'Bootstrap',
-  'Tailwind CSS',
+export const programmingLanguage = ['JavaScript', 'TypeScript', 'PHP'];
+export const frontEnd = ['HTML5', 'CSS3', 'Bootstrap', 'Tailwind CSS', 'React'];
+export const backEnd = [
   'Node.js',
   'Express',
   'NestJS',
   'CodeIgniter',
-  'Laravel',
-  'MySQL',
-  'PostgreSQL',
-  'MongoDB',
-  'Git',
-  'Postman',
-  'GraphQL',
-  'React',
-  'Vite',
-  'Webpack'
+  'Laravel'
+];
+export const database = ['MySQL', 'PostgreSQL', 'MongoDB'];
+export const other = ['Git', 'Postman', 'GraphQL', 'Vite', 'Webpack'];
+
+export const allowedStacks = [
+  ...programmingLanguage,
+  ...frontEnd,
+  ...backEnd,
+  ...database,
+  ...other
 ] as const;

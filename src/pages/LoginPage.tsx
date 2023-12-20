@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { LogIn } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { createErrorToast, createSuccessToast } from '../utils/toast';
-import { LogIn } from 'react-feather';
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);

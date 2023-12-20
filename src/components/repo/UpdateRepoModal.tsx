@@ -1,72 +1,22 @@
 import { useRef, useState } from 'react';
-import { createErrorToast, createSuccessToast } from '../utils/toast';
-import { Image } from 'react-feather';
-import useRepoName from '../hooks/useRepoName';
-import { RepoStack } from '../types/repo';
-import { allowedStacks } from '../utils/constants';
+import { Repo, RepoStack } from '../../types/repo';
+import { allowedStacks } from '../../utils/constants';
+import { createErrorToast, createSuccessToast } from '../../utils/toast';
 
-const CreateRepoModal = () => {
+type UpdateRepoModalProps = {
+  repo: Repo;
+};
+
+const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const ghIdRef = useRef<HTMLInputElement | null>(null);
-  const typeRef = useRef<HTMLSelectElement | null>(null);
-  const ownerRef = useRef<HTMLInputElement | null>(null);
-  const repoNameRef = useRef<HTMLInputElement | null>(null);
-  const homepageRef = useRef<HTMLInputElement | null>(null);
-  const htmlUrlRef = useRef<HTMLInputElement | null>(null);
-  const licenseRef = useRef<HTMLInputElement | null>(null);
-  const licenseUrlRef = useRef<HTMLInputElement | null>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
-  const createdAtRef = useRef<HTMLInputElement | null>(null);
   const stacksRef = useRef<HTMLInputElement | null>(null);
 
-  const { reposName } = useRepoName(setIsLoading);
+  let { stacks } = repo;
 
-  const handleRepositorySelected = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setIsLoading(true);
-
-    const [owner, repoName] = e.currentTarget.value.split('/');
-
-    const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/gh-repo/${owner}/${repoName}`
-    );
-    const data = await response.json();
-
-    if (ghIdRef.current) {
-      ghIdRef.current.value = data.id;
-    }
-    if (typeRef.current) {
-      typeRef.current.value = data.owner.type;
-    }
-    if (ownerRef.current) {
-      ownerRef.current.value = data.owner.login;
-    }
-    if (repoNameRef.current) {
-      repoNameRef.current.value = data.name;
-    }
-    if (homepageRef.current) {
-      homepageRef.current.value = data.homepage || '';
-    }
-    if (htmlUrlRef.current) {
-      htmlUrlRef.current.value = data.html_url;
-    }
-    if (licenseRef.current) {
-      licenseRef.current.value = data.license?.name || '';
-    }
-    if (licenseUrlRef.current) {
-      licenseUrlRef.current.value = data.license?.url || '';
-    }
-    if (descriptionRef.current) {
-      descriptionRef.current.value = data.description || '';
-    }
-    if (createdAtRef.current) {
-      createdAtRef.current.value = data.created_at.replace(/Z$/, '');
-    }
-
-    setIsLoading(false);
-  };
+  if (typeof stacks === 'string') {
+    stacks = stacks.split(', ') as RepoStack[];
+  }
 
   const handleThumbnailPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.currentTarget;
@@ -132,7 +82,7 @@ const CreateRepoModal = () => {
     }
   };
 
-  const handleCreateRepo = async () => {
+  const handleUpdateRepo = async () => {
     setIsLoading(true);
 
     const stacks = [];
@@ -143,50 +93,27 @@ const CreateRepoModal = () => {
     }
 
     const formData = new FormData();
-    if (ghIdRef.current) {
-      formData.append('ghId', ghIdRef.current.value);
-    }
-    if (typeRef.current) {
-      formData.append('type', typeRef.current.value);
-    }
-    if (ownerRef.current) {
-      formData.append('owner', ownerRef.current.value);
-    }
-    if (repoNameRef.current) {
-      formData.append('name', repoNameRef.current.value);
-    }
-    if (homepageRef.current) {
-      formData.append('homepage', homepageRef.current.value);
-    }
-    if (htmlUrlRef.current) {
-      formData.append('htmlUrl', htmlUrlRef.current.value);
-    }
-    if (licenseRef.current) {
-      formData.append('licenseName', licenseRef.current.value);
-    }
-    if (licenseUrlRef.current) {
-      formData.append('licenseUrl', licenseUrlRef.current.value);
-    }
-    if (descriptionRef.current) {
-      formData.append('description', descriptionRef.current.value);
-    }
-    if (createdAtRef.current) {
-      formData.append('created_at', `${createdAtRef.current.value}Z`);
-    }
     if (thumbnail) {
       formData.append('thumbnail', thumbnail);
     }
     formData.append('stacks', stacks.join(','));
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo`, {
-      method: 'POST',
-      body: formData
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/repo/${repo.ghId}`,
+      {
+        method: 'PATCH',
+        body: formData
+      }
+    );
 
     const { success, message } = await response.json();
 
     setIsLoading(false);
-    (document.getElementById('create_repo_modal') as HTMLDialogElement).close();
+    (
+      document.getElementById(
+        `update_repo_modal_${repo.ghId}`
+      ) as HTMLDialogElement
+    ).close();
 
     if (success) {
       createSuccessToast(message);
@@ -197,71 +124,43 @@ const CreateRepoModal = () => {
 
   return (
     <dialog
-      id='create_repo_modal'
+      id={`update_repo_modal_${repo.ghId}`}
       className='modal'
     >
       <div className='modal-box'>
-        <h3 className='font-bold text-lg'>Create new repo!</h3>
+        <h3 className='font-bold text-lg'>
+          Update #{repo.ghId} - {repo.owner}/{repo.name}
+        </h3>
         <form method='dialog'>
           <button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
             ✕
           </button>
 
-          <label className='form-control w-full max-w-xs'>
-            <div className='label'>
-              <span className='label-text'>Repository</span>{' '}
-              {isLoading ? (
-                <span className='loading loading-spinner loading-sm'></span>
-              ) : null}
-            </div>
-            <select
-              className='select select-bordered'
-              required
-              onChange={e => handleRepositorySelected(e)}
-            >
-              <option
-                disabled
-                selected
-              >
-                owner/repo
-              </option>
-              {reposName
-                ? reposName.map(repoName => (
-                    <option
-                      key={repoName.id}
-                      value={`${repoName.owner}/${repoName.name}`}
-                    >
-                      {repoName.owner}/{repoName.name}
-                    </option>
-                  ))
-                : null}
-            </select>
-          </label>
-
           <div className='flex flex-col md:flex-row gap-x-1'>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>GitHub Id (Read-Only)</span>
+                <span className='label-text'>GitHub Id</span>
               </div>
               <input
                 type='text'
                 placeholder='GitHub Id'
-                ref={ghIdRef}
                 disabled
+                defaultValue={repo.ghId}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>Type (Read-Only)</span>
+                <span className='label-text'>Type</span>
               </div>
               <select
                 className='select select-bordered'
-                ref={typeRef}
                 disabled
               >
-                <option>User</option>
-                <option>Organization</option>
+                <option selected={repo.type === 'User'}>User</option>
+                <option selected={repo.type === 'Organization'}>
+                  Organization
+                </option>
               </select>
             </label>
           </div>
@@ -269,25 +168,25 @@ const CreateRepoModal = () => {
           <div className='flex flex-col md:flex-row gap-x-1'>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>Owner (Read-Only)</span>
+                <span className='label-text'>Owner</span>
               </div>
               <input
                 type='text'
                 placeholder='Owner'
-                ref={ownerRef}
                 disabled
+                defaultValue={repo.owner}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>Repo Name (Read-Only)</span>
+                <span className='label-text'>Repo Name</span>
               </div>
               <input
                 type='text'
                 placeholder='Repo Name'
-                ref={repoNameRef}
                 disabled
+                defaultValue={repo.name}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
@@ -296,25 +195,25 @@ const CreateRepoModal = () => {
           <div className='flex flex-col md:flex-row gap-x-1'>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>Homepage (Read-Only)</span>
+                <span className='label-text'>Homepage</span>
               </div>
               <input
                 type='text'
                 placeholder='Homepage'
-                ref={homepageRef}
                 disabled
+                defaultValue={repo.homepage}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>HTML Url (Read-Only)</span>
+                <span className='label-text'>HTML Url</span>
               </div>
               <input
                 type='text'
                 placeholder='HTML Url'
-                ref={htmlUrlRef}
                 disabled
+                defaultValue={repo.htmlUrl}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
@@ -323,25 +222,25 @@ const CreateRepoModal = () => {
           <div className='flex flex-col md:flex-row gap-x-1'>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>License (Read-Only)</span>
+                <span className='label-text'>License</span>
               </div>
               <input
                 type='text'
                 placeholder='License'
-                ref={licenseRef}
                 disabled
+                defaultValue={repo.licenseName}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
             <label className='form-control w-full max-w-xs'>
               <div className='label'>
-                <span className='label-text'>License Url (Read-Only)</span>
+                <span className='label-text'>License Url</span>
               </div>
               <input
                 type='text'
                 placeholder='License Url'
-                ref={licenseUrlRef}
                 disabled
+                defaultValue={repo.licenseUrl}
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
@@ -349,25 +248,25 @@ const CreateRepoModal = () => {
 
           <label className='form-control'>
             <div className='label'>
-              <span className='label-text'>Description (Read-Only)</span>
+              <span className='label-text'>Description</span>
             </div>
             <textarea
               className='textarea textarea-bordered h-24 resize-none'
               placeholder='Description'
-              ref={descriptionRef}
               disabled
+              defaultValue={repo.description}
             ></textarea>
           </label>
 
           <label className='form-control w-full max-w-xs'>
             <div className='label'>
-              <span className='label-text'>Created At (Read-Only)</span>
+              <span className='label-text'>Created At</span>
             </div>
             <input
               type='datetime-local'
               placeholder='Created At'
-              ref={createdAtRef}
               disabled
+              defaultValue={repo.created_at.replace(/Z$/, '')}
               className='input input-bordered w-full max-w-xs'
             />
           </label>
@@ -380,13 +279,17 @@ const CreateRepoModal = () => {
               <input
                 type='file'
                 accept='.jpg, .jpeg, .png'
-                required
                 className='file-input file-input-bordered w-full max-w-xs'
                 onChange={e => handleThumbnailPreview(e)}
               />
             </label>
 
-            <Image size={256} />
+            <img
+              src={repo.thumbnail}
+              alt={repo.name}
+              width='256px'
+              height='256px'
+            />
           </div>
 
           <label className='form-control w-full relative'>
@@ -417,23 +320,45 @@ const CreateRepoModal = () => {
             <div
               ref={stacksRef}
               className='grid grid-cols-3 place-items-center gap-2 mt-2'
-            ></div>
+            >
+              {stacks.map(stack => (
+                <div
+                  className='badge badge-outline text-sm p-4 flex items-center gap-x-1'
+                  key={stack}
+                >
+                  <p
+                    className='text-error cursor-pointer'
+                    onClick={e => {
+                      const badge = e.currentTarget
+                        .parentElement as HTMLDivElement;
+                      const parent = badge?.parentElement as HTMLDivElement;
+                      parent.removeChild(badge);
+                    }}
+                  >
+                    ✕
+                  </p>
+                  <p>{stack}</p>
+                </div>
+              ))}
+            </div>
           </label>
 
-          <div
-            className={`${
-              isLoading ? 'btn-disabled' : ''
-            } btn btn-success mt-4`}
-            onClick={handleCreateRepo}
-          >
-            {isLoading ? (
-              <>
-                <span className='loading loading-spinner'></span>
-                <p>Loading...</p>
-              </>
-            ) : (
-              <p>Create</p>
-            )}
+          <div className='flex gap-x-2 mt-4'>
+            <div
+              className={`${isLoading ? 'btn-disabled' : ''} btn btn-warning`}
+              onClick={handleUpdateRepo}
+            >
+              {isLoading ? (
+                <>
+                  <span className='loading loading-spinner'></span>
+                  <p>Loading...</p>
+                </>
+              ) : (
+                <p>Update</p>
+              )}
+            </div>
+
+            <button className='btn btn-outline'>Cancel</button>
           </div>
         </form>
       </div>
@@ -441,4 +366,4 @@ const CreateRepoModal = () => {
   );
 };
 
-export default CreateRepoModal;
+export default UpdateRepoModal;

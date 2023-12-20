@@ -42,7 +42,7 @@ import {
   SiWebpack,
   SiWebpackHex
 } from '@icons-pack/react-simple-icons';
-import { RepoStack } from '../types/repo';
+import { RepoStack } from '../../types/repo';
 
 type StackIconProps = {
   stack: RepoStack;

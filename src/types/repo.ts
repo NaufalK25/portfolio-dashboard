@@ -1,5 +1,5 @@
-import { allowedStacks } from '../utils/constants';
 import { GHRepoOwnerType } from './gh-repo';
+import { allowedStacks } from '../utils/constants';
 
 export type Repo = {
   id: number;

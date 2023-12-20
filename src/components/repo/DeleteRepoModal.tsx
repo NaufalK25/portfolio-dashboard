@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Repo } from '../types/repo';
-import { createErrorToast, createSuccessToast } from '../utils/toast';
+import { Repo } from '../../types/repo';
+import { createErrorToast, createSuccessToast } from '../../utils/toast';
 
 type DeleteRepoModalProps = {
   repo: Repo;

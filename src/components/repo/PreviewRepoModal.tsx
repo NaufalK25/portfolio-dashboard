@@ -1,7 +1,7 @@
 import { ExternalLink, GitHub } from 'react-feather';
-import { Repo, RepoStack } from '../types/repo';
 import { Link } from 'react-router-dom';
 import StackIcon from './StackIcon';
+import { Repo, RepoStack } from '../../types/repo';
 
 type PreviewRepoModalProps = {
   repo: Repo;
