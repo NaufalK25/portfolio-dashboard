@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LogIn } from 'react-feather';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { createErrorToast, createSuccessToast } from '../utils/toast';
@@ -8,6 +9,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
   const navigate = useNavigate();
 
@@ -19,10 +21,34 @@ const LoginPage = () => {
     }
   }, [navigate]);
 
+  const verifyUser = async (): Promise<boolean> => {
+    const token = captchaRef.current?.getValue();
+
+    captchaRef.current?.reset();
+
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${
+        import.meta.env.VITE_GOOGLE_SECRET_KEY
+      }&response=${token}`,
+      {
+        method: 'POST'
+      }
+    );
+    const { success } = await response.json();
+
+    return success;
+  };
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setIsLoading(true);
+
+    const isVerified = await verifyUser();
+    if (!isVerified) {
+      setIsLoading(false);
+      return createErrorToast('Please check the captcha for verification!');
+    }
 
     const response = await fetch(
       `${import.meta.env.VITE_BASE_URL}/auth/login`,
@@ -56,7 +82,7 @@ const LoginPage = () => {
     navigate('/');
     setTimeout(() => {
       createSuccessToast(message);
-    }, 1)
+    }, 1);
   };
 
   return (
@@ -93,9 +119,18 @@ const LoginPage = () => {
                 placeholder='******'
                 ref={passwordRef}
                 required
+                autoComplete='false'
                 className='input input-bordered w-full max-w-xs'
               />
             </label>
+
+            <ReCAPTCHA
+              ref={captchaRef}
+              sitekey={import.meta.env.VITE_GOOGLE_SITE_KEY}
+              size='normal'
+              theme='dark'
+            />
+
             <button
               className={`${
                 isLoading ? 'btn-disabled' : ''
