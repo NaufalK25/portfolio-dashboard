@@ -21,20 +21,21 @@ const LoginPage = () => {
     }
   }, [navigate]);
 
-  const verifyUser = async (): Promise<boolean> => {
+  const verifyUser = async () => {
     const token = captchaRef.current?.getValue();
 
     captchaRef.current?.reset();
 
     const response = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${
-        import.meta.env.VITE_GOOGLE_SECRET_KEY
-      }&response=${token}`,
+      `${import.meta.env.VITE_BASE_URL}/auth/verify`,
       {
-        method: 'POST'
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
       }
     );
-    const { success } = await response.json();
+    const { data } = await response.json();
+    const { success }: { success: boolean } = data;
 
     return success;
   };
@@ -45,6 +46,7 @@ const LoginPage = () => {
     setIsLoading(true);
 
     const isVerified = await verifyUser();
+
     if (!isVerified) {
       setIsLoading(false);
       return createErrorToast('Please check the captcha for verification!');
