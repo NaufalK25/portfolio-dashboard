@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { TableColumn } from 'react-data-table-component';
 import {
   Edit,
@@ -6,6 +6,7 @@ import {
   FolderPlus,
   GitHub,
   Image,
+  RefreshCw,
   RotateCw,
   Trash2,
   User,
@@ -20,8 +21,9 @@ import UpdateRepoModal from '../components/repo/UpdateRepoModal';
 import useRepo from '../hooks/useRepo';
 import DashboardLayout from '../layout/DashboardLayout';
 import { Repo, RepoStack } from '../types/repo';
+import { createErrorToast, createSuccessToast } from '../utils/toast';
 
-const columns: TableColumn<Repo>[] = [
+const getColumns = (handleSyncRepoByRepoName: (owner: string, repo: string) => void): TableColumn<Repo>[] => [
   {
     name: 'GitHub Id',
     selector: row => row.ghId,
@@ -98,6 +100,16 @@ const columns: TableColumn<Repo>[] = [
 
           <div className='flex gap-x-2'>
             <div
+              className='tooltip tooltip-accent cursor-pointer'
+              data-tip='Sync'
+              onClick={() => handleSyncRepoByRepoName(row.owner, row.name)}
+            >
+              <RefreshCw
+                size={20}
+                className='text-accent'
+              />
+            </div>
+            <div
               className='tooltip tooltip-info cursor-pointer'
               data-tip='Preview'
               onClick={() => {
@@ -156,6 +168,28 @@ const RepoPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { repos, updateRepos } = useRepo(setIsLoading);
+
+  const handleSyncRepoByRepoName = useCallback(async (owner: string, repoName: string) => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo/${owner}/${repoName}/sync`, {
+        method: 'PATCH',
+      });
+      const data = await response.json();
+      if (data.success) {
+        return createSuccessToast(`Repo ${owner}/${repoName} sync successfully!`);
+      } else {
+        return createErrorToast(`Repo ${owner}/${repoName} failed to sync!`);
+      }
+    } catch (error) {
+      return createErrorToast(`Repo ${owner}/${repoName} failed to sync!`);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const columns = useMemo(() => getColumns(handleSyncRepoByRepoName), [handleSyncRepoByRepoName]);
 
   return (
     <>

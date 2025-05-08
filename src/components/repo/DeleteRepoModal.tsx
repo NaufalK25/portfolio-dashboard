@@ -15,7 +15,10 @@ const DeleteRepoModal = ({ repo }: DeleteRepoModalProps) => {
     const response = await fetch(
       `${import.meta.env.VITE_BASE_URL}/repo/${repo.ghId}`,
       {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
       }
     );
 

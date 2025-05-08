@@ -28,7 +28,10 @@ const useRepoName = (
 
   const syncReposName = async () => {
     await fetch(`${import.meta.env.VITE_BASE_URL}/repo-name/sync`, {
-      method: 'PATCH'
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }
     });
 
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo-name`);

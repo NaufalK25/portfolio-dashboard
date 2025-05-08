@@ -102,7 +102,10 @@ const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
       `${import.meta.env.VITE_BASE_URL}/repo/${repo.ghId}`,
       {
         method: 'PATCH',
-        body: formData
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
       }
     );
 

@@ -180,7 +180,10 @@ const CreateRepoModal = () => {
 
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo`, {
       method: 'POST',
-      body: formData
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }
     });
 
     const { success, message } = await response.json();
@@ -227,13 +230,13 @@ const CreateRepoModal = () => {
               </option>
               {reposName
                 ? reposName.map(repoName => (
-                    <option
-                      key={repoName.id}
-                      value={`${repoName.owner}/${repoName.name}`}
-                    >
-                      {repoName.owner}/{repoName.name}
-                    </option>
-                  ))
+                  <option
+                    key={repoName.id}
+                    value={`${repoName.owner}/${repoName.name}`}
+                  >
+                    {repoName.owner}/{repoName.name}
+                  </option>
+                ))
                 : null}
             </select>
           </label>
@@ -420,9 +423,8 @@ const CreateRepoModal = () => {
           </label>
 
           <div
-            className={`${
-              isLoading ? 'btn-disabled' : ''
-            } btn btn-success mt-4`}
+            className={`${isLoading ? 'btn-disabled' : ''
+              } btn btn-success mt-4`}
             onClick={handleCreateRepo}
           >
             {isLoading ? (

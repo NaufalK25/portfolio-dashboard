@@ -44,11 +44,11 @@ const RepoNamePage = () => {
 
     try {
       await syncReposName();
-      setIsLoading(false);
       createSuccessToast('Repos name sync successfully!');
     } catch (err) {
-      setIsLoading(false);
       createErrorToast('Repos name failed to sync!');
+    } finally {
+      setIsLoading(false);
     }
   };
 
