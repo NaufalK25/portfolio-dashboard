@@ -15,7 +15,7 @@ type Tab = 'Stack Used Count' | 'Repo Type';
 
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [acitveTab, setAcitveTab] = useState<Tab>('Stack Used Count');
+  const [activeTab, setActiveTab] = useState<Tab>('Stack Used Count');
 
   const { repos } = useRepo(setIsLoading);
   const { reposName } = useRepoName(setIsLoading);
@@ -91,23 +91,23 @@ const DashboardPage = () => {
         <a
           role='tab'
           className={`${
-            acitveTab === 'Stack Used Count' ? 'tab-active' : ''
+            activeTab === 'Stack Used Count' ? 'tab-active' : ''
           } tab`}
-          onClick={() => setAcitveTab('Stack Used Count')}
+          onClick={() => setActiveTab('Stack Used Count')}
         >
           Stack Used Count
         </a>
         <a
           role='tab'
-          className={`${acitveTab === 'Repo Type' ? 'tab-active' : ''} tab`}
-          onClick={() => setAcitveTab('Repo Type')}
+          className={`${activeTab === 'Repo Type' ? 'tab-active' : ''} tab`}
+          onClick={() => setActiveTab('Repo Type')}
         >
           Repo Type
         </a>
       </div>
 
-      {acitveTab === 'Stack Used Count' ? <StackUsedCountCharts /> : null}
-      {acitveTab === 'Repo Type' ? <RepoTypeCharts /> : null}
+      {activeTab === 'Stack Used Count' ? <StackUsedCountCharts /> : null}
+      {activeTab === 'Repo Type' ? <RepoTypeCharts /> : null}
     </DashboardLayout>
   );
 };

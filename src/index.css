@@ -3,3 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+select[aria-label='Rows per page:'] option {
+  color: #000000;
+}
