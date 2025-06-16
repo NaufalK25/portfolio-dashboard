@@ -39,9 +39,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <ToastContainer />
 
       <aside
-        className={`${
-          isSidebarOpen ? 'flex' : 'hidden'
-        } md:flex flex-col bg-gray-800 text-white w-64 h-screen fixed top-0 left-0 overflow-y-auto z-10`}
+        className={`${isSidebarOpen ? 'flex' : 'hidden'
+          } md:flex flex-col bg-gray-800 text-white w-64 h-screen fixed top-0 left-0 overflow-y-auto z-10`}
       >
         <div className='p-4'>
           <Link
