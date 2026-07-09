@@ -1,9 +1,8 @@
 import { PieLabel } from 'recharts';
 
 const RepoTypeLabel: PieLabel = props => {
-  const { cx, cy, midAngle = 0, innerRadius, outerRadius, percent = 0, name, payload } =
+  const { cx, cy, midAngle = 0, innerRadius, outerRadius, percent = 0, name, value } =
     props;
-  const { value } = payload.payload;
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);

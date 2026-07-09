@@ -35,12 +35,12 @@ const columns: TableColumn<RepoName>[] = [
 ];
 
 const RepoNamePage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  const { reposName, syncReposName } = useRepoName(setIsLoading);
+  const { reposName, isLoading, syncReposName } = useRepoName();
 
   const handleSyncReposName = async () => {
-    setIsLoading(true);
+    setIsSyncing(true);
 
     try {
       await syncReposName();
@@ -48,7 +48,7 @@ const RepoNamePage = () => {
     } catch {
       createErrorToast('Repos name failed to sync!');
     } finally {
-      setIsLoading(false);
+      setIsSyncing(false);
     }
   };
 
@@ -68,7 +68,7 @@ const RepoNamePage = () => {
           />
         </div>
 
-        {isLoading ? (
+        {isLoading || isSyncing ? (
           <>
             <span className='loading loading-spinner'></span>
             <p className='text-lg'>Loading...</p>

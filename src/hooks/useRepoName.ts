@@ -1,30 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { RepoName } from '../types/repo';
 
-const useRepoName = (
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const [reposName, setReposName] = useState<RepoName[]>([]);
+const fetchReposName = async (): Promise<RepoName[]> => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BASE_URL}/repo-name`
+  );
+  const { data } = await response.json();
 
-  useEffect(() => {
-    const getAllReposName = async () => {
-      setIsLoading(true);
+  return data;
+};
 
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/repo-name`
-        );
-        const { data } = await response.json();
+const useRepoName = () => {
+  const queryClient = useQueryClient();
 
-        setReposName(data);
-        setIsLoading(false);
-      } catch {
-        setIsLoading(false);
-      }
-    };
-
-    getAllReposName();
-  }, [setIsLoading]);
+  const { data: reposName = [], isFetching } = useQuery({
+    queryKey: ['reposName'],
+    queryFn: fetchReposName
+  });
 
   const syncReposName = async () => {
     await fetch(`${import.meta.env.VITE_BASE_URL}/repo-name/sync`, {
@@ -34,13 +26,10 @@ const useRepoName = (
       }
     });
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo-name`);
-    const { data } = await response.json();
-
-    setReposName(data);
+    await queryClient.invalidateQueries({ queryKey: ['reposName'] });
   };
 
-  return { reposName, syncReposName };
+  return { reposName, isLoading: isFetching, syncReposName };
 };
 
 export default useRepoName;

@@ -20,7 +20,7 @@ const CreateRepoModal = () => {
   const createdAtRef = useRef<HTMLInputElement | null>(null);
   const stacksRef = useRef<HTMLInputElement | null>(null);
 
-  const { reposName } = useRepoName(setIsLoading);
+  const { reposName, isLoading: isReposNameLoading } = useRepoName();
 
   const handleRepositorySelected = async (
     e: React.ChangeEvent<HTMLSelectElement>
@@ -213,7 +213,7 @@ const CreateRepoModal = () => {
           <fieldset className='fieldset w-full max-w-xs'>
             <legend className='fieldset-legend'>
               Repository{' '}
-              {isLoading ? (
+              {isLoading || isReposNameLoading ? (
                 <span className='loading loading-spinner loading-sm'></span>
               ) : null}
             </legend>

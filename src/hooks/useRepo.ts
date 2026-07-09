@@ -1,54 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Repo } from '../types/repo';
 
-const useRepo = (
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const [repos, setRepos] = useState<Repo[]>([]);
+const fetchRepos = async (): Promise<Repo[]> => {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo`);
+  let { data }: { data: Repo[] } = await response.json();
 
-  useEffect(() => {
-    const getAllRepos = async () => {
-      setIsLoading(true);
+  data = data.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
 
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo`);
-        let { data }: { data: Repo[] } = await response.json();
+  return data;
+};
 
-        data = data.sort(
-          (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
+const useRepo = () => {
+  const queryClient = useQueryClient();
 
-        setRepos(data);
-        setIsLoading(false);
-      } catch {
-        setIsLoading(false);
-      }
-    };
+  const { data: repos = [], isFetching } = useQuery({
+    queryKey: ['repos'],
+    queryFn: fetchRepos
+  });
 
-    getAllRepos();
-  }, [setIsLoading]);
+  const updateRepos = () =>
+    queryClient.invalidateQueries({ queryKey: ['repos'] });
 
-  const updateRepos = async () => {
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo`);
-      let { data }: { data: Repo[] } = await response.json();
-
-      data = data.sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
-
-      setRepos(data);
-      setIsLoading(false);
-    } catch {
-      setIsLoading(false);
-    }
-  };
-
-  return { repos, setRepos, updateRepos };
+  return { repos, isLoading: isFetching, updateRepos };
 };
 
 export default useRepo;

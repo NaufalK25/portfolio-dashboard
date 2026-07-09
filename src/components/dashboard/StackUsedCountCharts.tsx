@@ -1,13 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { BarChart } from 'react-feather';
 import StackUsedCountChart from './StackUsedCountChart';
 import { backEnd, database, frontEnd, other } from '../../utils/constants';
 import useRepo from '../../hooks/useRepo';
 
 const StackUsedCountCharts = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { repos } = useRepo(setIsLoading);
+  const { repos, isLoading } = useRepo();
 
   const stacks = useMemo(
     () =>

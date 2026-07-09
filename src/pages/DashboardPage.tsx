@@ -14,11 +14,11 @@ dayjs.extend(relativeTime);
 type Tab = 'Stack Used Count' | 'Repo Type';
 
 const DashboardPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('Stack Used Count');
 
-  const { repos } = useRepo(setIsLoading);
-  const { reposName } = useRepoName(setIsLoading);
+  const { repos, isLoading: isReposLoading } = useRepo();
+  const { reposName, isLoading: isReposNameLoading } = useRepoName();
+  const isLoading = isReposLoading || isReposNameLoading;
 
   return (
     <DashboardLayout>

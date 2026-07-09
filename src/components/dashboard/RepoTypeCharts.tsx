@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { PieChart } from 'react-feather';
 import RepoTypeChart from './RepoTypeChart';
 import useRepo from '../../hooks/useRepo';
@@ -22,10 +22,9 @@ const getTypes = (data: Repo[] | RepoName[]) => {
 };
 
 const RepoTypeCharts = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { repos } = useRepo(setIsLoading);
-  const { reposName } = useRepoName(setIsLoading);
+  const { repos, isLoading: isReposLoading } = useRepo();
+  const { reposName, isLoading: isReposNameLoading } = useRepoName();
+  const isLoading = isReposLoading || isReposNameLoading;
 
   const repoTypes = useMemo(() => getTypes(repos), [repos]);
   const repoNameTypes = useMemo(() => getTypes(reposName), [reposName]);

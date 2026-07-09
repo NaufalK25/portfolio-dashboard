@@ -165,12 +165,12 @@ const getColumns = (handleSyncRepoByRepoName: (owner: string, repo: string) => v
 ];
 
 const RepoPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  const { repos, updateRepos } = useRepo(setIsLoading);
+  const { repos, isLoading, updateRepos } = useRepo();
 
   const handleSyncRepoByRepoName = useCallback(async (owner: string, repoName: string) => {
-    setIsLoading(true);
+    setIsSyncing(true);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo/${owner}/${repoName}/sync`, {
@@ -185,7 +185,7 @@ const RepoPage = () => {
     } catch {
       return createErrorToast(`Repo ${owner}/${repoName} failed to sync!`);
     } finally {
-      setIsLoading(false);
+      setIsSyncing(false);
     }
   }, []);
 
@@ -223,7 +223,7 @@ const RepoPage = () => {
             <RotateCw size={20} />
           </div>
 
-          {isLoading ? (
+          {isLoading || isSyncing ? (
             <>
               <span className='loading loading-spinner'></span>
               <p className='text-lg'>Loading...</p>
