@@ -21,7 +21,7 @@ const useRepo = (
 
         setRepos(data);
         setIsLoading(false);
-      } catch (err) {
+      } catch {
         setIsLoading(false);
       }
     };
@@ -43,7 +43,7 @@ const useRepo = (
 
       setRepos(data);
       setIsLoading(false);
-    } catch (err) {
+    } catch {
       setIsLoading(false);
     }
   };

@@ -210,21 +210,22 @@ const CreateRepoModal = () => {
             ✕
           </button>
 
-          <label className='form-control w-full max-w-xs'>
-            <div className='label'>
-              <span className='label-text'>Repository</span>{' '}
+          <fieldset className='fieldset w-full max-w-xs'>
+            <legend className='fieldset-legend'>
+              Repository{' '}
               {isLoading ? (
                 <span className='loading loading-spinner loading-sm'></span>
               ) : null}
-            </div>
+            </legend>
             <select
-              className='select select-bordered'
+              className='select'
               required
+              defaultValue=''
               onChange={e => handleRepositorySelected(e)}
             >
               <option
+                value=''
                 disabled
-                selected
               >
                 owner/repo
               </option>
@@ -239,169 +240,145 @@ const CreateRepoModal = () => {
                 ))
                 : null}
             </select>
-          </label>
+          </fieldset>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>GitHub Id (Read-Only)</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>GitHub Id (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='GitHub Id'
                 ref={ghIdRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Type (Read-Only)</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Type (Read-Only)</legend>
               <select
-                className='select select-bordered'
+                className='select'
                 ref={typeRef}
                 disabled
               >
                 <option>User</option>
                 <option>Organization</option>
               </select>
-            </label>
+            </fieldset>
           </div>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Owner (Read-Only)</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Owner (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='Owner'
                 ref={ownerRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Repo Name (Read-Only)</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Repo Name (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='Repo Name'
                 ref={repoNameRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
           </div>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Homepage (Read-Only)</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Homepage (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='Homepage'
                 ref={homepageRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>HTML Url (Read-Only)</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>HTML Url (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='HTML Url'
                 ref={htmlUrlRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
           </div>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>License (Read-Only)</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>License (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='License'
                 ref={licenseRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>License Url (Read-Only)</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>License Url (Read-Only)</legend>
               <input
                 type='text'
                 placeholder='License Url'
                 ref={licenseUrlRef}
                 disabled
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
           </div>
 
-          <label className='form-control'>
-            <div className='label'>
-              <span className='label-text'>Description (Read-Only)</span>
-            </div>
+          <fieldset className='fieldset'>
+            <legend className='fieldset-legend'>Description (Read-Only)</legend>
             <textarea
-              className='textarea textarea-bordered h-24 resize-none'
+              className='textarea h-24 resize-none'
               placeholder='Description'
               ref={descriptionRef}
               disabled
             ></textarea>
-          </label>
+          </fieldset>
 
-          <label className='form-control w-full max-w-xs'>
-            <div className='label'>
-              <span className='label-text'>Created At (Read-Only)</span>
-            </div>
+          <fieldset className='fieldset w-full max-w-xs'>
+            <legend className='fieldset-legend'>Created At (Read-Only)</legend>
             <input
               type='datetime-local'
               placeholder='Created At'
               ref={createdAtRef}
               disabled
-              className='input input-bordered w-full max-w-xs'
+              className='input w-full max-w-xs'
             />
-          </label>
+          </fieldset>
 
           <div className='flex flex-col gap-y-2'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Thumbnail</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Thumbnail</legend>
               <input
                 type='file'
                 accept='.jpg, .jpeg, .png'
-                className='file-input file-input-bordered w-full max-w-xs'
+                className='file-input w-full max-w-xs'
                 onChange={e => handleThumbnailPreview(e)}
               />
-            </label>
+            </fieldset>
 
             <Image size={256} />
           </div>
 
-          <label className='form-control w-full relative'>
-            <div className='label'>
-              <span className='label-text'>
-                Stacks (Press Tab to add Stack)
-              </span>
-            </div>
+          <fieldset className='fieldset w-full relative'>
+            <legend className='fieldset-legend'>
+              Stacks (Press Tab to add Stack)
+            </legend>
             <input
               type='text'
               list='stacks'
               placeholder='Stacks'
-              className='input input-bordered w-full max-w-xs'
+              className='input w-full max-w-xs'
               onKeyDown={e => handleAddStacks(e)}
             />
 
@@ -414,13 +391,13 @@ const CreateRepoModal = () => {
               ))}
             </datalist>
 
-            <kbd className='kbd absolute right-1 md:right-[8.5rem] top-11'>Tab</kbd>
+            <kbd className='kbd absolute right-1 md:right-34 top-11'>Tab</kbd>
 
             <div
               ref={stacksRef}
               className='grid grid-cols-3 place-items-center gap-2 mt-2'
             ></div>
-          </label>
+          </fieldset>
 
           <div
             className={`${isLoading ? 'btn-disabled' : ''

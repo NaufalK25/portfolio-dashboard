@@ -182,7 +182,7 @@ const RepoPage = () => {
       } else {
         return createErrorToast(`Repo ${owner}/${repoName} failed to sync!`);
       }
-    } catch (error) {
+    } catch {
       return createErrorToast(`Repo ${owner}/${repoName} failed to sync!`);
     } finally {
       setIsLoading(false);

@@ -30,13 +30,13 @@ function DashboardDataTable<T>({
       data={data}
       pagination
       progressComponent={
-        <div className='p-4 flex justify-center items-center gap-x-1 h-[32rem] md:h-[36rem]'>
+        <div className='p-4 flex justify-center items-center gap-x-1 h-128 md:h-144'>
           <span className='loading loading-spinner'></span>
           <p className='text-lg'>Loading...</p>
         </div>
       }
       progressPending={pending}
-      theme='dark'
+      colorMode='dark'
     />
   );
 }

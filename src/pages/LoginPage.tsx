@@ -99,32 +99,28 @@ const LoginPage = () => {
             className='flex flex-col gap-4 items-center'
             onSubmit={e => handleLogin(e)}
           >
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Email</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Email</legend>
               <input
                 type='email'
                 placeholder='example@gmail.com'
                 ref={emailRef}
                 autoFocus
                 required
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Password</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Password</legend>
               <input
                 type='password'
                 placeholder='******'
                 ref={passwordRef}
                 required
                 autoComplete='false'
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
 
             <ReCAPTCHA
               ref={captchaRef}

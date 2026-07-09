@@ -3,8 +3,8 @@ import {
   SiBootstrapHex,
   SiCodeigniter,
   SiCodeigniterHex,
-  SiCss3,
-  SiCss3Hex,
+  SiCss,
+  SiCssHex,
   SiExpress,
   SiExpressHex,
   SiGit,
@@ -61,8 +61,8 @@ const StackIcon = ({ stack, color }: StackIconProps) => {
     );
   } else if (stack === 'CSS3') {
     return (
-      <SiCss3
-        color={color === 'black' ? 'black' : SiCss3Hex}
+      <SiCss
+        color={color === 'black' ? 'black' : SiCssHex}
         size={size}
       />
     );

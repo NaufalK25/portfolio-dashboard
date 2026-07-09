@@ -23,7 +23,10 @@ const StackUsedCountChart = ({ stacks }: StackUsedCountChartProps) => {
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey='name' />
           <YAxis />
-          <Tooltip />
+          <Tooltip
+            contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
+            labelStyle={{ color: '#fff' }}
+          />
           <Bar
             dataKey='value'
             fill='#7480FF'

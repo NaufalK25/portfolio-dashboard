@@ -18,7 +18,7 @@ const useRepoName = (
 
         setReposName(data);
         setIsLoading(false);
-      } catch (err) {
+      } catch {
         setIsLoading(false);
       }
     };

@@ -140,152 +140,129 @@ const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
           </button>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>GitHub Id</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>GitHub Id</legend>
               <input
                 type='text'
                 placeholder='GitHub Id'
                 disabled
                 defaultValue={repo.ghId}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Type</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Type</legend>
               <select
-                className='select select-bordered'
+                className='select'
+                defaultValue={repo.type}
                 disabled
               >
-                <option selected={repo.type === 'User'}>User</option>
-                <option selected={repo.type === 'Organization'}>
-                  Organization
-                </option>
+                <option value='User'>User</option>
+                <option value='Organization'>Organization</option>
               </select>
-            </label>
+            </fieldset>
           </div>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Owner</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Owner</legend>
               <input
                 type='text'
                 placeholder='Owner'
                 disabled
                 defaultValue={repo.owner}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Repo Name</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Repo Name</legend>
               <input
                 type='text'
                 placeholder='Repo Name'
                 disabled
                 defaultValue={repo.name}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
           </div>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Homepage</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Homepage</legend>
               <input
                 type='text'
                 placeholder='Homepage'
                 disabled
                 defaultValue={repo.homepage}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>HTML Url</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>HTML Url</legend>
               <input
                 type='text'
                 placeholder='HTML Url'
                 disabled
                 defaultValue={repo.htmlUrl}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
           </div>
 
           <div className='flex flex-col md:flex-row gap-x-1'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>License</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>License</legend>
               <input
                 type='text'
                 placeholder='License'
                 disabled
                 defaultValue={repo.licenseName}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>License Url</span>
-              </div>
+            </fieldset>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>License Url</legend>
               <input
                 type='text'
                 placeholder='License Url'
                 disabled
                 defaultValue={repo.licenseUrl}
-                className='input input-bordered w-full max-w-xs'
+                className='input w-full max-w-xs'
               />
-            </label>
+            </fieldset>
           </div>
 
-          <label className='form-control'>
-            <div className='label'>
-              <span className='label-text'>Description</span>
-            </div>
+          <fieldset className='fieldset'>
+            <legend className='fieldset-legend'>Description</legend>
             <textarea
-              className='textarea textarea-bordered h-24 resize-none'
+              className='textarea h-24 resize-none'
               placeholder='Description'
               disabled
               defaultValue={repo.description}
             ></textarea>
-          </label>
+          </fieldset>
 
-          <label className='form-control w-full max-w-xs'>
-            <div className='label'>
-              <span className='label-text'>Created At</span>
-            </div>
+          <fieldset className='fieldset w-full max-w-xs'>
+            <legend className='fieldset-legend'>Created At</legend>
             <input
               type='datetime-local'
               placeholder='Created At'
               disabled
               defaultValue={repo.created_at.replace(/Z$/, '')}
-              className='input input-bordered w-full max-w-xs'
+              className='input w-full max-w-xs'
             />
-          </label>
+          </fieldset>
 
           <div className='flex flex-col gap-y-2'>
-            <label className='form-control w-full max-w-xs'>
-              <div className='label'>
-                <span className='label-text'>Thumbnail</span>
-              </div>
+            <fieldset className='fieldset w-full max-w-xs'>
+              <legend className='fieldset-legend'>Thumbnail</legend>
               <input
                 type='file'
                 accept='.jpg, .jpeg, .png'
-                className='file-input file-input-bordered w-full max-w-xs'
+                className='file-input w-full max-w-xs'
                 onChange={e => handleThumbnailPreview(e)}
               />
-            </label>
+            </fieldset>
 
             <img
               src={repo.thumbnail}
@@ -295,17 +272,15 @@ const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
             />
           </div>
 
-          <label className='form-control w-full relative'>
-            <div className='label'>
-              <span className='label-text'>
-                Stacks (Press Tab to add Stack)
-              </span>
-            </div>
+          <fieldset className='fieldset w-full relative'>
+            <legend className='fieldset-legend'>
+              Stacks (Press Tab to add Stack)
+            </legend>
             <input
               type='text'
               list='stacks'
               placeholder='Stacks'
-              className='input input-bordered w-full max-w-xs'
+              className='input w-full max-w-xs'
               onKeyDown={e => handleAddStacks(e)}
             />
 
@@ -318,7 +293,7 @@ const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
               ))}
             </datalist>
 
-            <kbd className='kbd absolute right-1 md:right-[8.5rem] top-11'>Tab</kbd>
+            <kbd className='kbd absolute right-1 md:right-34 top-11'>Tab</kbd>
 
             <div
               ref={stacksRef}
@@ -344,7 +319,7 @@ const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
                 </div>
               ))}
             </div>
-          </label>
+          </fieldset>
 
           <div className='flex gap-x-2 mt-4'>
             <div

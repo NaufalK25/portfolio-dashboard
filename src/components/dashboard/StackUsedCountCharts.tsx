@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { BarChart } from 'react-feather';
 import StackUsedCountChart from './StackUsedCountChart';
 import { backEnd, database, frontEnd, other } from '../../utils/constants';
@@ -6,12 +6,11 @@ import useRepo from '../../hooks/useRepo';
 
 const StackUsedCountCharts = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [stacks, setStacks] = useState<{ name: string; value: number }[]>([]);
 
   const { repos } = useRepo(setIsLoading);
 
-  useEffect(() => {
-    setStacks(
+  const stacks = useMemo(
+    () =>
       repos.reduce((acc, val) => {
         const stacks = Array.isArray(val.stacks)
           ? val.stacks
@@ -30,9 +29,9 @@ const StackUsedCountCharts = () => {
         });
 
         return acc;
-      }, [] as { name: string; value: number }[])
-    );
-  }, [repos]);
+      }, [] as { name: string; value: number }[]),
+    [repos]
+  );
 
   return (
     <>
