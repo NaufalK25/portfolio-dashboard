@@ -1,6 +1,6 @@
 # Portfolio Dashboard
 
-A CMS-style dashboard for managing portfolio content — repos, repo metadata, and related stats — built with React, TypeScript, and Vite.
+A CMS-style dashboard for managing my portfolio content — repos, repo metadata, and related stats — built with React, TypeScript, and Vite.
 
 ## Prerequisites
 
