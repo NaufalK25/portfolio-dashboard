@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuthContext from './useAuthContext';
 
 const useAuth = () => {
   const navigate = useNavigate();
+  const { accessToken } = useAuthContext();
 
   useEffect(() => {
-    const accessToken = window.localStorage.getItem('access_token');
-
     if (!accessToken) {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [accessToken, navigate]);
 };
 
 export default useAuth;

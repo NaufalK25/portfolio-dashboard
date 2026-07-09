@@ -3,6 +3,7 @@ import { LogIn } from 'react-feather';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import useAuthContext from '../hooks/useAuthContext';
 import { createErrorToast, createSuccessToast } from '../utils/toast';
 
 const LoginPage = () => {
@@ -12,14 +13,13 @@ const LoginPage = () => {
   const captchaRef = useRef<ReCAPTCHA>(null);
 
   const navigate = useNavigate();
+  const { accessToken, login } = useAuthContext();
 
   useEffect(() => {
-    const accessToken = window.localStorage.getItem('access_token');
-
     if (accessToken) {
       navigate('/');
     }
-  }, [navigate]);
+  }, [accessToken, navigate]);
 
   const verifyUser = async () => {
     const token = captchaRef.current?.getValue();
@@ -79,7 +79,7 @@ const LoginPage = () => {
 
     const { access_token } = data;
 
-    window.localStorage.setItem('access_token', access_token);
+    login(access_token);
     setIsLoading(false);
     navigate('/');
     setTimeout(() => {

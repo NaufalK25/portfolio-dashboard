@@ -3,6 +3,7 @@ import { FileText, Folder, LogOut, Menu } from 'react-feather';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import useAuth from '../hooks/useAuth';
+import useAuthContext from '../hooks/useAuthContext';
 import { createSuccessToast } from '../utils/toast';
 
 type DashboardLayoutProps = {
@@ -11,6 +12,8 @@ type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   useAuth();
+
+  const { logout } = useAuthContext();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -27,7 +30,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   };
 
   const handleLogout = () => {
-    window.localStorage.removeItem('access_token');
+    logout();
     navigate('/login');
     setTimeout(() => {
       createSuccessToast('Logged out successfully!');
