@@ -33,6 +33,8 @@ import {
   SiPostmanHex,
   SiReact,
   SiReactHex,
+  SiRedis,
+  SiRedisHex,
   SiTailwindcss,
   SiTailwindcssHex,
   SiTypescript,
@@ -168,6 +170,13 @@ const StackIcon = ({ stack, color }: StackIconProps) => {
     return (
       <SiReact
         color={color === 'black' ? 'black' : SiReactHex}
+        size={size}
+      />
+    );
+  } else if (stack === 'Redis') {
+    return (
+      <SiRedis
+        color={color === 'black' ? 'black' : SiRedisHex}
         size={size}
       />
     );

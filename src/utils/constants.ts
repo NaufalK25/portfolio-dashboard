@@ -7,7 +7,7 @@ export const backEnd = [
   'CodeIgniter',
   'Laravel'
 ];
-export const database = ['MySQL', 'PostgreSQL', 'MongoDB'];
+export const database = ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'];
 export const other = ['Git', 'Postman', 'GraphQL', 'Vite', 'Webpack'];
 
 export const allowedStacks = [
