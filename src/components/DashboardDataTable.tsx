@@ -3,7 +3,21 @@ import DataTable, {
   TableStyles
 } from 'react-data-table-component';
 
+const fitContentStyle = { minWidth: '100%', width: 'max-content' };
+
 const customStyles: TableStyles = {
+  table: {
+    style: { ...fitContentStyle, maxWidth: 'none' }
+  },
+  head: {
+    style: fitContentStyle
+  },
+  headRow: {
+    style: fitContentStyle
+  },
+  rows: {
+    style: fitContentStyle
+  },
   headCells: {
     style: {
       fontSize: '1rem',

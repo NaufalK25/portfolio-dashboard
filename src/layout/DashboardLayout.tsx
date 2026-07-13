@@ -15,7 +15,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   const { logout } = useAuthContext();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
 

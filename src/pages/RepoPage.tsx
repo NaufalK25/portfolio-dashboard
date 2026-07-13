@@ -36,6 +36,7 @@ const getColumns = (handleSyncRepoByRepoName: (owner: string, repo: string) => v
         <img
           src={row.thumbnail}
           alt={row.name}
+          className='w-24 h-16 object-cover py-1'
         />
       );
     }
