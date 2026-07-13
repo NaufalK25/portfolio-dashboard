@@ -206,7 +206,10 @@ const CreateRepoModal = () => {
       <div className='modal-box'>
         <h3 className='font-bold text-lg'>Create new repo!</h3>
         <form method='dialog'>
-          <button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
+          <button
+            formNoValidate
+            className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'
+          >
             ✕
           </button>
 
