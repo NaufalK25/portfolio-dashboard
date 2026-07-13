@@ -373,17 +373,23 @@ const CreateRepoModal = () => {
             <Image size={256} />
           </div>
 
-          <fieldset className='fieldset w-full relative'>
+          <fieldset className='fieldset w-full'>
             <legend className='fieldset-legend'>
               Stacks (Press Tab to add Stack)
             </legend>
-            <input
-              type='text'
-              list='stacks'
-              placeholder='Stacks'
-              className='input w-full max-w-xs'
-              onKeyDown={e => handleAddStacks(e)}
-            />
+            <div className='relative w-full max-w-xs'>
+              <input
+                type='text'
+                list='stacks'
+                placeholder='Stacks'
+                className='input w-full'
+                onKeyDown={e => handleAddStacks(e)}
+              />
+
+              <kbd className='kbd absolute right-2 top-1/2 -translate-y-1/2'>
+                Tab
+              </kbd>
+            </div>
 
             <datalist id='stacks'>
               {allowedStacks.map(stack => (
@@ -393,8 +399,6 @@ const CreateRepoModal = () => {
                 ></option>
               ))}
             </datalist>
-
-            <kbd className='kbd absolute right-1 md:right-34 top-11'>Tab</kbd>
 
             <div
               ref={stacksRef}
