@@ -24,22 +24,20 @@ function DashboardDataTable<T>({
   pending
 }: DashboardDataTableProps<T>) {
   return (
-    <div className='w-full overflow-x-auto'>
-      <DataTable<T>
-        columns={columns}
-        customStyles={customStyles}
-        data={data}
-        pagination
-        progressComponent={
-          <div className='p-4 flex justify-center items-center gap-x-1 h-128 md:h-144'>
-            <span className='loading loading-spinner'></span>
-            <p className='text-lg'>Loading...</p>
-          </div>
-        }
-        progressPending={pending}
-        colorMode='dark'
-      />
-    </div>
+    <DataTable<T>
+      columns={columns}
+      customStyles={customStyles}
+      data={data}
+      pagination
+      progressComponent={
+        <div className='p-4 flex justify-center items-center gap-x-1 h-128 md:h-144'>
+          <span className='loading loading-spinner'></span>
+          <p className='text-lg'>Loading...</p>
+        </div>
+      }
+      progressPending={pending}
+      colorMode='dark'
+    />
   );
 }
 
