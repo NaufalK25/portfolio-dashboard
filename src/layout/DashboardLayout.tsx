@@ -88,11 +88,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         </nav>
       </aside>
 
-      <div className='lg:ml-64 p-4'>
+      <div className='md:ml-64 p-4'>
         <header className='flex justify-between items-center mb-4'>
           <h1 className='text-2xl font-semibold'>Dashboard</h1>
           <button
-            className='lg:hidden px-2 py-1 text-white bg-black fixed z-20 right-2'
+            className='md:hidden px-2 py-1 text-white bg-black fixed z-20 right-2'
             onClick={handleToggleSidebar}
           >
             <Menu />
