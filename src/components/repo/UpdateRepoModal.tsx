@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Repo, RepoStack } from '../../types/repo';
 import { allowedStacks } from '../../utils/constants';
+import authFetch from '../../utils/authFetch';
 import { createErrorToast, createSuccessToast } from '../../utils/toast';
 
 type UpdateRepoModalProps = {
@@ -98,14 +99,11 @@ const UpdateRepoModal = ({ repo }: UpdateRepoModalProps) => {
     }
     formData.append('stacks', stacks.join(','));
 
-    const response = await fetch(
+    const response = await authFetch(
       `${import.meta.env.VITE_BASE_URL}/repo/${repo.ghId}`,
       {
         method: 'PATCH',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
+        body: formData
       }
     );
 

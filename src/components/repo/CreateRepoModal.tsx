@@ -3,6 +3,7 @@ import { Image } from 'react-feather';
 import useRepoName from '../../hooks/useRepoName';
 import { RepoStack } from '../../types/repo';
 import { allowedStacks } from '../../utils/constants';
+import authFetch from '../../utils/authFetch';
 import { createErrorToast, createSuccessToast } from '../../utils/toast';
 
 const CreateRepoModal = () => {
@@ -178,12 +179,9 @@ const CreateRepoModal = () => {
     }
     formData.append('stacks', stacks.join(','));
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo`, {
+    const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/repo`, {
       method: 'POST',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
+      body: formData
     });
 
     const { success, message } = await response.json();

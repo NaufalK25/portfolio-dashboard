@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Repo } from '../../types/repo';
+import authFetch from '../../utils/authFetch';
 import { createErrorToast, createSuccessToast } from '../../utils/toast';
 
 type DeleteRepoModalProps = {
@@ -12,14 +13,9 @@ const DeleteRepoModal = ({ repo }: DeleteRepoModalProps) => {
   const handleDeleteRepo = async () => {
     setIsLoading(true);
 
-    const response = await fetch(
+    const response = await authFetch(
       `${import.meta.env.VITE_BASE_URL}/repo/${repo.ghId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      }
+      { method: 'DELETE' }
     );
 
     const { success, message } = await response.json();

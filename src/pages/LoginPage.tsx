@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { LogIn } from 'react-feather';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import useAuthContext from '../hooks/useAuthContext';
 import { createErrorToast, createSuccessToast } from '../utils/toast';
 
@@ -89,8 +88,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <ToastContainer />
-
       <div className='flex flex-col p-4 white items-center justify-center min-h-screen'>
         <div className='border border-white rounded-lg p-4 w-full md:w-96'>
           <p className='text-center text-2xl font-bold uppercase'>Login</p>
@@ -130,9 +127,8 @@ const LoginPage = () => {
             />
 
             <button
-              className={`${
-                isLoading ? 'btn-disabled' : ''
-              } btn btn-primary w-full max-w-xs`}
+              className={`${isLoading ? 'btn-disabled' : ''
+                } btn btn-primary w-full max-w-xs`}
               type='submit'
             >
               {isLoading ? (

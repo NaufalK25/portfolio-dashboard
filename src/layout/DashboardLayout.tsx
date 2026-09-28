@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FileText, Folder, LogOut, Menu } from 'react-feather';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import useAuth from '../hooks/useAuth';
 import useAuthContext from '../hooks/useAuthContext';
 import { createSuccessToast } from '../utils/toast';
@@ -39,8 +38,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <>
-      <ToastContainer />
-
       <aside
         className={`${isSidebarOpen ? 'flex' : 'hidden'
           } md:flex flex-col bg-gray-800 text-white w-64 h-screen fixed top-0 left-0 overflow-y-auto z-10`}

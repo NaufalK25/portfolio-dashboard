@@ -21,6 +21,7 @@ import UpdateRepoModal from '../components/repo/UpdateRepoModal';
 import useRepo from '../hooks/useRepo';
 import DashboardLayout from '../layout/DashboardLayout';
 import { Repo, RepoStack } from '../types/repo';
+import authFetch from '../utils/authFetch';
 import { createErrorToast, createSuccessToast } from '../utils/toast';
 
 const getColumns = (handleSyncRepoByRepoName: (owner: string, repo: string) => void): TableColumn<Repo>[] => [
@@ -174,7 +175,7 @@ const RepoPage = () => {
     setIsSyncing(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/repo/${owner}/${repoName}/sync`, {
+      const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/repo/${owner}/${repoName}/sync`, {
         method: 'PATCH',
       });
       const data = await response.json();
